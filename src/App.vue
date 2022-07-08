@@ -5,7 +5,12 @@
     <!--할일 입력 및 추가-->
     <todo-input v-on:addTodo="addTodo"></todo-input>
     <!--할 일 목록 표시 및 특정 할 일 삭제-->
-    <todo-list v-bind:propsdata="todoItems" @removeTodo="removeTodo"></todo-list>
+    <todo-list
+    @changeCheck="showCheck = !showCheck; checked = $event;"
+    @removeTodo="removeTodo"
+    @ToFixItem="toFix = !toFix;"
+    @fixContent="fixContent($event); showCheck = !showCheck;"
+    :propsdata="todoItems" :show-check="showCheck" :checked="checked" :to-fix="toFix"></todo-list>
     <!--할 일 모두 삭제-->
     <todo-footer v-on:removeAll="clearAll"></todo-footer>
   </div>
@@ -21,7 +26,7 @@ import TodoFooter from "./components/TodoFooter";
 export default {
   data() {
     return {
-      todoItems: []
+      todoItems: [],
     }
   },
   methods: {
@@ -38,14 +43,14 @@ export default {
     },
     removeTodo(todoItem, index) {
       localStorage.removeItem(todoItem);
+      // splice() : 배열에서 인덱스 시작지점부터 count만큼 삭제
       this.todoItems.splice(index,1);
     }
-
   },
   // 뷰의 인스턴스가 생성되자마자 뷰 데이터에 접근 할 수 있도록 created() 라이프 사이클 훅에서 로컬 스토리지의 데이터를 뷰 데이터로 옮김.
   created() {
     if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++){
+      for (var i = 0; i < localStorage.length; i++) {
         this.todoItems.push(localStorage.key(i));
       }
     }
@@ -55,24 +60,26 @@ export default {
     'TodoInput' : TodoInput,
     'TodoList' : TodoList,
     'TodoFooter' : TodoFooter
-  }
+  },
+
+
 }
 
 </script>
 
 <style>
-  body{
-    text-align: center;
-    background-color: #F6F6F8;
-  }
-  input{
-    border-style: groove;
-    width: 200px;
-  }
-  button{
-    border-style: groove;
-  }
-  .shadow{
-    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
-  }
+body {
+  text-align: center;
+  background-color: #F6F6F8;
+}
+input {
+  border-style: groove;
+  width: 200px;
+}
+button {
+  border-style: groove;
+}
+.shadow {
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03)
+}
 </style>
