@@ -3,7 +3,7 @@
     <transition-group name="list" tag="ul">
       <!--:key => v-for 디렉티브를 사용할 때 꼭 지정해주는 것이 좋다.-->
       <li v-for="(todoItem, index) in propsdata" :key="todoItem" class="shadow">
-          <i class="checkBtn fa fa-check" aria-hidden="true"></i>
+          <i class="checkBtn fa fa-check" aria-hidden="false"></i>
           {{ todoItem }}
           <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
             <i class="far fa-trash-alt" aria-hidden="true"></i>
